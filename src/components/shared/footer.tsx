@@ -3,7 +3,8 @@ import { FileText, Building2, LayoutGrid, Tag, Github, Twitter, Linkedin, Image 
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
-import { FOOTER_OVERRIDE_ENABLED, FooterOverride } from '@/overrides/footer'
+import { FOOTER_OVERRIDE_ENABLED } from '@/overrides/footer'
+import { FooterOverrideGate } from '@/components/shared/footer-override-gate'
 
 const taskIcons: Record<TaskKey, any> = {
   article: FileText,
@@ -26,7 +27,6 @@ const footerLinks = {
     icon: taskIcons[task.key] || LayoutGrid,
   })),
   company: [
-    { name: 'About', href: '/about' },
     { name: 'Team', href: '/team' },
     { name: 'Careers', href: '/careers' },
     { name: 'Blog', href: '/blog' },
@@ -54,7 +54,7 @@ const socialLinks = [
 
 export function Footer() {
   if (FOOTER_OVERRIDE_ENABLED) {
-    return <FooterOverride />
+    return <FooterOverrideGate />
   }
 
   const { recipe } = getFactoryState()
@@ -88,8 +88,8 @@ export function Footer() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr_1fr]">
             <div className="rounded-[2rem] border border-white/10 bg-white/5 p-7">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/8 p-1.5">
-                  <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/12 bg-white/8 p-1.5 sm:h-16 sm:w-16 sm:rounded-3xl">
+                  <img src="/favicon.png?v=20260426" alt={`${SITE_CONFIG.name} logo`} width="64" height="64" className="h-full w-full object-contain" />
                 </div>
                 <div>
                   <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
@@ -180,8 +180,8 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.2fr_0.8fr_0.8fr_0.8fr_0.8fr]">
           <div>
             <Link href="/" className="flex items-center gap-3">
-              <div className="h-11 w-11 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
+              <div className="h-14 w-14 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm sm:h-16 sm:w-16 sm:rounded-3xl">
+                <img src="/favicon.png?v=20260426" alt={`${SITE_CONFIG.name} logo`} width="64" height="64" className="h-full w-full object-contain" />
               </div>
               <div>
                 <span className="block text-lg font-semibold">{SITE_CONFIG.name}</span>

@@ -24,18 +24,19 @@ export default function PressPage() {
   return (
     <PageShell
       title="Press"
-      description="Media resources, brand assets, and press coverage."
+      description="Logos, brand notes, and where we have been mentioned—kept in one place for busy newsrooms."
     >
       <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border-border bg-card">
-          <CardContent className="p-6 space-y-3">
-            <h2 className="text-lg font-semibold text-foreground">Press Kit</h2>
+        <Card className="border-border/60 bg-card/60 shadow-sm backdrop-blur-sm">
+          <CardContent className="space-y-4 p-6 sm:p-8">
+            <h2 className="font-display text-xl font-semibold text-foreground">Press kit</h2>
             <p className="text-sm text-muted-foreground">
-              Download logos, product screenshots, and brand guidelines for media use.
+              Use these assets for accurate coverage. When in doubt, use the full-color mark on dark fields and the
+              provided wordmark on light fields.
             </p>
-            <div className="grid gap-2">
+            <div className="grid gap-3">
               {mockPressAssets.map((asset) => (
-                <div key={asset.id} className="rounded-lg border border-border bg-secondary/40 px-4 py-3">
+                <div key={asset.id} className="ep-glass rounded-xl px-4 py-3">
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
                       <p className="text-sm font-medium text-foreground">{asset.title}</p>
@@ -66,7 +67,10 @@ export default function PressPage() {
         </Card>
         <div className="space-y-4">
           {mockPressCoverage.map((item) => (
-            <Card key={item.id} className="border-border bg-card transition-transform hover:-translate-y-1">
+            <Card
+              key={item.id}
+              className="border-border/60 bg-card/50 transition-transform hover:-translate-y-0.5"
+            >
               <CardContent className="p-6">
                 <div className="text-xs uppercase tracking-wide text-muted-foreground">{item.outlet}</div>
                 <p className="mt-2 text-sm text-foreground">{item.headline}</p>

@@ -2,114 +2,113 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent news desk',
+    tagline: 'News desk · elitepressa.com',
   },
   footer: {
-    tagline: 'Simple publishing for press-style updates',
+    tagline: 'Accountable coverage without the noise.',
   },
   hero: {
-    badge: 'Latest updates',
-    title: ['Clear publishing, simple reading, no extra noise.'],
+    badge: 'Latest wire',
+    title: ['Headlines that respect your attention.', 'Context first—noise last.'],
     description:
-      'A minimal article-style publishing template built for regular updates, announcements, and media distribution posts.',
+      'Elite Pressa publishes concise updates and explainers—structured like a newsroom, paced like a modern reader expects.',
     primaryCta: {
-      label: 'Browse latest posts',
+      label: 'Open the updates desk',
       href: '/updates',
     },
     secondaryCta: {
-      label: 'Contact us',
+      label: 'Talk to the desk',
       href: '/contact',
     },
-    searchPlaceholder: 'Search posts',
-    focusLabel: 'Latest',
-    featureCardBadge: 'editor note',
-    featureCardTitle: 'Recent updates appear directly on the homepage.',
+    searchPlaceholder: 'Search coverage',
+    focusLabel: 'Now',
+    featureCardBadge: 'Field note',
+    featureCardTitle: 'New posts surface on the front page first.',
     featureCardDescription:
-      'The homepage works as a clean front page so new posts stay visible without decorative sections getting in the way.',
+      'The homepage is built for scanning: lead story, signal stack, then a denser grid for deeper reading.',
   },
   home: {
     metadata: {
-      title: 'Latest updates and newsroom posts',
+      title: 'Elite Pressa — reporting desk & updates',
       description:
-        'Read the latest updates, announcements, and stories through a simple archive-first publishing experience.',
-      openGraphTitle: 'Latest updates and newsroom posts',
+        'Independent headlines, explainers, and dispatch-style updates from Elite Pressa.',
+      openGraphTitle: 'Elite Pressa — reporting desk & updates',
       openGraphDescription:
-        'A simple publishing template for updates, announcements, and readable article pages.',
-      keywords: ['newsroom posts', 'latest updates', 'announcements', 'press articles'],
+        'Editorial updates and press-style coverage with a clean reading layout.',
+      keywords: ['Elite Pressa', 'headlines', 'news desk', 'updates', 'reporting'],
     },
-    introBadge: 'About',
-    introTitle: 'A quiet publishing template made for regular updates.',
+    introBadge: 'Our approach',
+    introTitle: 'Built for clarity under deadline.',
     introParagraphs: [
-      'This template is designed for sites that publish straightforward updates and want the homepage to behave like a clean front page rather than a product landing page.',
-      'Posts are visible immediately, archives stay easy to scan, and the reading page keeps the focus on the article itself.',
-      'The interface is intentionally simple so the site feels usable, familiar, and fast to update.',
+      'We keep the front page legible: one lead, a tight spotlight column, and a wire section for everything else.',
+      'Story pages stay reader-first—no clutter, no theatrical chrome—so the reporting stays in focus.',
+      'If you need the full archive, the updates desk lists every published item with quick filters.',
     ],
-    sideBadge: 'What it prioritizes',
+    sideBadge: 'What you get',
     sidePoints: [
-      'Recent posts directly on the homepage.',
-      'Simple archive layout with sidebar search and recent items.',
-      'Readable article pages without comments or extra modules.',
-      'A publishing-first structure that stays easy to maintain.',
+      'Dispatch-style updates with consistent typography.',
+      'Archive routes that stay fast to scan on mobile.',
+      'Search across the site when you know what you are looking for.',
     ],
     primaryLink: {
-      label: 'Open archive',
+      label: 'Browse updates',
       href: '/updates',
     },
     secondaryLink: {
-      label: 'Contact desk',
+      label: 'Contact',
       href: '/contact',
     },
   },
   cta: {
-    badge: 'Get in touch',
-    title: 'Use this template when publishing regular updates matters more than visual effects.',
+    badge: 'Reach the desk',
+    title: 'Have a tip, correction, or partnership note?',
     description:
-      'A straightforward layout for announcements, media coverage, partner updates, and newsroom-style content.',
+      'Use the contact page for editorial inquiries. We read everything—volume permitting.',
     primaryCta: {
-      label: 'Contact us',
+      label: 'Contact',
       href: '/contact',
     },
     secondaryCta: {
-      label: 'View archive',
-      href: '/updates',
+      label: 'Search coverage',
+      href: '/search',
     },
   },
-  taskSectionHeading: 'Latest posts',
-  taskSectionDescriptionSuffix: 'Read the newest published updates.',
+  taskSectionHeading: 'Wire & updates',
+  taskSectionDescriptionSuffix: 'Newest dispatches from the desk.',
 } as const
 
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
   article: {
     title: 'Articles',
-    description: 'Read the latest posts and long-form updates.',
+    description: 'Long-form reporting and essays.',
   },
   listing: {
     title: 'Listings',
-    description: 'Explore listings and directory-style entries.',
+    description: 'Directory-style entries when enabled.',
   },
   classified: {
     title: 'Classifieds',
-    description: 'Browse classifieds and short-form notices.',
+    description: 'Short notices and classified posts.',
   },
   image: {
     title: 'Images',
-    description: 'Browse image-led updates and visual posts.',
+    description: 'Visual stories and image-led posts.',
   },
   profile: {
     title: 'Profiles',
-    description: 'View profile pages and public identities.',
+    description: 'Public profiles and bylines.',
   },
   sbm: {
     title: 'Bookmarks',
-    description: 'Browse curated resources and saved links.',
+    description: 'Curated links and resources.',
   },
   pdf: {
     title: 'Resources',
-    description: 'Open PDFs and downloadable files.',
+    description: 'PDFs and downloadable files.',
   },
   mediaDistribution: {
-    title: 'Latest updates',
-    description: 'Read the latest published updates and announcements.',
+    title: 'Updates desk',
+    description: 'Latest dispatches, briefs, and announcements.',
   },
 }
 
@@ -118,7 +117,13 @@ export const taskIntroCopy: Record<
   { title: string; paragraphs: string[]; links: { label: string; href: string }[] }
 > = {
   listing: { title: 'Listings', paragraphs: ['Directory entries and service pages.'], links: [{ label: 'Home', href: '/' }] },
-  article: { title: 'Articles', paragraphs: ['General long-form article feed.'], links: [{ label: 'Home', href: '/' }] },
+  article: {
+    title: 'Articles',
+    paragraphs: [
+      'Long-form pieces live here when the article task is enabled—spaced for deep reading and slower headlines.',
+    ],
+    links: [{ label: 'Home', href: '/' }],
+  },
   classified: { title: 'Classifieds', paragraphs: ['Short-form posts and notices.'], links: [{ label: 'Home', href: '/' }] },
   image: { title: 'Images', paragraphs: ['Image-first posts and galleries.'], links: [{ label: 'Home', href: '/' }] },
   profile: { title: 'Profiles', paragraphs: ['Profile pages and identity surfaces.'], links: [{ label: 'Home', href: '/' }] },
@@ -128,10 +133,10 @@ export const taskIntroCopy: Record<
   comment: { title: 'Comments', paragraphs: ['Commentary and response posts.'], links: [{ label: 'Home', href: '/' }] },
   org: { title: 'Organizations', paragraphs: ['Organization pages and entities.'], links: [{ label: 'Home', href: '/' }] },
   mediaDistribution: {
-    title: 'Latest updates',
+    title: 'Updates desk',
     paragraphs: [
-      'This archive is designed for straightforward publishing: regular updates, announcements, and media-style posts presented in a clean reading format.',
-      'The layout stays simple so visitors can scan headlines quickly, open stories easily, and move through the archive without distraction.',
+      'This is the main publishing lane for Elite Pressa: briefs, advisories, and field notes in a single scannable feed.',
+      'Use categories to focus a topic, or jump into a story when the headline is enough context.',
     ],
     links: [
       { label: 'Home', href: '/' },

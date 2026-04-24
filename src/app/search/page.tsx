@@ -75,8 +75,8 @@ export default async function SearchPage({
       title="Search"
       description={
         query
-          ? `Results for "${query}"`
-          : "Browse the latest posts across every task."
+          ? `Matches for “${query}” across published updates.`
+          : "Search across on-site posts. Start with a broad term, then narrow with categories in the URL when you need to."
       }
       actions={
         <form action="/search" className="flex w-full gap-2 sm:w-auto">
@@ -98,6 +98,12 @@ export default async function SearchPage({
         </form>
       }
     >
+      {!query ? (
+        <p className="ep-glass mb-8 max-w-2xl rounded-2xl px-4 py-3 text-sm text-muted-foreground">
+          Tip: add <code className="rounded bg-muted px-1.5 py-0.5 text-xs">?q=</code> to the URL for direct links from
+          newsletters or social posts.
+        </p>
+      ) : null}
       {results.length ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {results.map((post) => {
@@ -107,7 +113,7 @@ export default async function SearchPage({
           })}
         </div>
       ) : (
-        <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
+        <div className="ep-glass rounded-2xl border border-dashed border-border/60 p-10 text-center text-muted-foreground">
           No matching posts yet.
         </div>
       )}
