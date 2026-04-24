@@ -1,29 +1,35 @@
 ﻿import { PageShell } from '@/components/shared/page-shell'
-import { Card, CardContent } from '@/components/ui/card'
 
 const sections = [
-  { title: 'Essential Cookies', body: 'Required for authentication and core features.' },
-  { title: 'Analytics Cookies', body: 'Help us understand how the platform is used.' },
-  { title: 'Preference Cookies', body: 'Remember your settings and saved filters.' },
+  {
+    title: 'Essential',
+    body: 'Required to keep sessions secure, route traffic safely, and prevent basic abuse. These are not used for ad profiling.',
+  },
+  {
+    title: 'Preferences',
+    body: 'Remember light choices and UI state where the app exposes controls (for example, reduced motion or saved filters on supported surfaces).',
+  },
+  {
+    title: 'Analytics',
+    body: 'Where enabled, we may use first-party or privacy-respecting tools to see aggregate usage—pages viewed, performance timings—to prioritize fixes. You can use browser settings to block non-essential cookies, understanding some features may degrade.',
+  },
 ]
 
 export default function CookiesPage() {
   return (
     <PageShell
-      title="Cookie Policy"
-      description="Details about the cookies we use."
+      title="Cookie policy"
+      description="What cookies and similar storage we use, in plain terms."
     >
-      <Card className="border-border bg-card">
-        <CardContent className="p-6 space-y-4">
-          <p className="text-xs text-muted-foreground">Last updated: March 16, 2026</p>
-          {sections.map((section) => (
-            <div key={section.title} className="rounded-lg border border-border bg-secondary/40 p-4">
-              <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
-              <p className="mt-2 text-sm text-muted-foreground">{section.body}</p>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+      <div className="space-y-4">
+        <p className="text-xs text-muted-foreground">Last updated: April 24, 2026</p>
+        {sections.map((section) => (
+          <div key={section.title} className="ep-glass rounded-2xl p-6">
+            <h2 className="font-display text-lg font-semibold text-foreground">{section.title}</h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{section.body}</p>
+          </div>
+        ))}
+      </div>
     </PageShell>
   )
 }
