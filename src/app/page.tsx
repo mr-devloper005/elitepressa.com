@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Tag, User } from 'lucide-react'
+import { ArrowRight, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, Search, ShieldCheck, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -111,14 +111,15 @@ function getDirectoryTone(brandPack: string) {
 
 function getEditorialTone() {
   return {
-    shell: 'bg-[#fbf6ee] text-[#241711]',
-    panel: 'border border-[#dcc8b7] bg-[#fffdfa] shadow-[0_24px_60px_rgba(77,47,27,0.08)]',
-    soft: 'border border-[#e6d6c8] bg-[#fff4e8]',
-    muted: 'text-[#6e5547]',
-    title: 'text-[#241711]',
-    badge: 'bg-[#241711] text-[#fff1e2]',
-    action: 'bg-[#241711] text-[#fff1e2] hover:bg-[#3a241b]',
-    actionAlt: 'border border-[#dcc8b7] bg-transparent text-[#241711] hover:bg-[#f5e7d7]',
+    shell: 'text-foreground',
+    panel: 'ep-glass rounded-[1.75rem]',
+    soft: 'rounded-2xl border border-border/60 bg-muted/40',
+    muted: 'text-muted-foreground',
+    title: 'text-foreground',
+    badge: 'bg-primary text-primary-foreground',
+    action: 'rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90',
+    actionAlt:
+      'rounded-full border border-border/80 bg-background/80 px-5 py-3 text-sm font-semibold text-foreground backdrop-blur transition hover:bg-muted/60',
   }
 }
 
@@ -328,143 +329,201 @@ function EditorialHome({
   const summarySource = lead?.summary || SITE_CONFIG.description
   const [bodyA, bodyB] = splitIntoTwoParagraphs(summarySource)
   const secondParagraph = bodyB || SITE_CONFIG.tagline
+  const editionLine = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(new Date())
 
   return (
-    <main className="bg-[#fafafa] text-[#1a1a1a]">
-      <div className="mx-auto min-h-screen max-w-[1400px] border-x border-[#0f172a]/8 bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.04)]">
-        <section className="px-5 py-12 sm:px-8 sm:py-16 lg:px-12 lg:py-20">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:gap-10 lg:items-start">
-            {/* Left: lead story — headings + highlighted body */}
-            <div className="order-1 max-w-xl lg:pt-2">
-              <p className="font-display text-[2.15rem] font-medium leading-[1.05] tracking-[-0.04em] sm:text-5xl">
+    <main className="relative min-h-screen overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        aria-hidden
+      >
+        <div className="absolute -left-32 top-20 h-72 w-72 rounded-full bg-accent/20 blur-3xl" />
+        <div className="absolute -right-24 top-40 h-96 w-96 rounded-full bg-primary/15 blur-3xl" />
+        <div className="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-foreground/5 blur-3xl" />
+      </div>
+
+      <div className="border-b border-border/40 bg-background/40 backdrop-blur-md">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-sm">
+            <time className="font-medium text-muted-foreground" dateTime={new Date().toISOString()}>
+              {editionLine}
+            </time>
+            <span className="hidden h-3 w-px bg-border sm:block" aria-hidden />
+            <span className="inline-flex items-center gap-2 text-muted-foreground">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-destructive/60 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-destructive" />
+              </span>
+              {siteContent.hero.badge}
+            </span>
+          </div>
+          <Link
+            href="/search"
+            className="ep-glass inline-flex items-center gap-2 self-start rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-foreground transition hover:bg-background/80 sm:self-auto"
+          >
+            <Search className="h-3.5 w-3.5" aria-hidden />
+            {siteContent.hero.searchPlaceholder}
+          </Link>
+        </div>
+        <div className="ep-kicker-rule" />
+      </div>
+
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:py-20">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-12 lg:items-start">
+          <div className="ep-in space-y-6">
+            <div>
+              <p className="font-display text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl">
                 {SITE_CONFIG.name}
               </p>
-              <p className="mt-4 max-w-md text-[0.95rem] leading-relaxed text-[#444]">{SITE_CONFIG.tagline}</p>
-
-              <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#64748b]">
-                {lead ? getPostCategoryLabel(lead) : 'Featured'}
+              <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-base">
+                {SITE_CONFIG.tagline}
               </p>
-              <h1 className="font-display mt-3 text-[2.35rem] font-medium leading-[1.08] tracking-[-0.035em] text-[#111] sm:text-5xl lg:text-[2.75rem]">
-                <span className="decoration-primary/35 underline decoration-2 underline-offset-[0.18em]">{headline}</span>
+            </div>
+
+            <div>
+              <span className="editorial-label">{lead ? getPostCategoryLabel(lead) : siteContent.hero.focusLabel}</span>
+              <h1 className="font-display mt-4 text-3xl font-medium leading-[1.12] tracking-[-0.04em] text-foreground sm:text-4xl lg:text-[2.6rem]">
+                {headline}
               </h1>
+            </div>
 
-              <div className="mt-8 space-y-5 rounded-r-xl border-l-4 border-primary bg-primary/6 py-4 pl-5 pr-4 text-[0.98rem] leading-[1.75] text-[#2d2d2d]">
+            <div className={`${tone.panel} rounded-2xl p-5 sm:p-6`}>
+              <div className="space-y-4 text-base leading-[1.75] text-foreground/90 sm:text-[1.02rem]">
                 {bodyA ? <p>{bodyA}</p> : null}
-                {secondParagraph ? <p className="text-[#3d3d3d]">{secondParagraph}</p> : null}
+                {secondParagraph ? <p className="text-muted-foreground">{secondParagraph}</p> : null}
               </div>
+            </div>
 
-              {featuredSecondary ? (
-                <Link
-                  href={postHref(featuredSecondary)}
-                  className="mt-10 block max-w-lg border-t border-black/10 pt-8 transition-colors hover:bg-[#f8fafc]"
-                >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#64748b]">Also this week</p>
-                  <p className="font-display mt-2 text-lg font-semibold leading-snug text-[#0f172a]">
-                    {featuredSecondary.title}
+            {featuredSecondary && featuredSecondary.id !== lead?.id ? (
+              <Link
+                href={postHref(featuredSecondary)}
+                className="group ep-glass block max-w-lg rounded-2xl p-5 transition hover:border-primary/30"
+              >
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
+                  {siteContent.home.introBadge}
+                </p>
+                <p className="font-display mt-2 text-lg font-semibold leading-snug text-foreground group-hover:text-primary">
+                  {featuredSecondary.title}
+                </p>
+                {featuredSecondary.summary ? (
+                  <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                    {featuredSecondary.summary}
                   </p>
-                  {featuredSecondary.summary ? (
-                    <p className="mt-3 rounded-md bg-amber-50/90 px-3 py-2 text-sm leading-relaxed text-[#422006] ring-1 ring-amber-200/80">
-                      {featuredSecondary.summary}
+                ) : null}
+              </Link>
+            ) : (
+              <div className="pt-2">
+                <Link
+                  href={primaryTask?.route || '/updates'}
+                  className={`inline-flex items-center gap-2 ${tone.action}`}
+                >
+                  {primaryTask?.label || siteContent.home.primaryLink.label}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div className="ep-in ep-in-delay-1 flex flex-col gap-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-muted-foreground">
+              {siteContent.hero.focusLabel}
+            </p>
+            {spotlightPosts.length ? (
+              spotlightPosts.map((post, i) => (
+                <Link
+                  key={post.id}
+                  href={postHref(post)}
+                  className="group ep-glass rounded-2xl p-5 transition hover:border-primary/35"
+                >
+                  <span className="text-[10px] font-bold tabular-nums text-primary">{String(i + 1).padStart(2, '0')}</span>
+                  <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    {getPostCategoryLabel(post)}
+                  </p>
+                  <h2 className="font-display mt-2 text-lg font-semibold leading-snug text-foreground group-hover:text-primary sm:text-xl">
+                    {post.title}
+                  </h2>
+                  {post.summary ? (
+                    <p className="mt-3 border-l-2 border-primary/50 pl-3 text-sm leading-relaxed text-muted-foreground">
+                      {post.summary}
                     </p>
                   ) : null}
                 </Link>
-              ) : (
-                <div className="mt-10 border-t border-black/10 pt-8">
-                  <Link
-                    href={primaryTask?.route || '/articles'}
-                    className={`inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ${tone.action}`}
-                  >
-                    {primaryTask?.label || 'Browse'}
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Center: spotlight stack — text-only cards */}
-            <div className="order-3 flex flex-col gap-5 lg:order-2">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#64748b]">Spotlight</p>
-              {spotlightPosts.length ? (
-                spotlightPosts.map((post, i) => (
-                  <Link
-                    key={post.id}
-                    href={postHref(post)}
-                    className="group rounded-xl border border-black/10 bg-[#fafafa] p-5 shadow-sm transition hover:border-primary/40 hover:shadow-md"
-                  >
-                    <span className="text-[10px] font-bold tabular-nums text-primary/80">{String(i + 1).padStart(2, '0')}</span>
-                    <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#64748b]">
-                      {getPostCategoryLabel(post)}
-                    </p>
-                    <h2 className="font-display mt-2 text-xl font-semibold leading-snug text-[#0f172a] group-hover:text-primary">
-                      {post.title}
-                    </h2>
-                    {post.summary ? (
-                      <p className="mt-3 border-l-2 border-primary/50 pl-3 text-sm leading-relaxed text-[#444]">{post.summary}</p>
-                    ) : null}
-                  </Link>
-                ))
-              ) : (
-                <p className="text-sm text-[#666]">More stories will appear here.</p>
-              )}
-            </div>
-
-          </div>
-
-          {/* Heavy grid — more dummy / real cards, content-forward */}
-          {deckPosts.length ? (
-            <div className="mt-16 border-t border-black/10 pt-14">
-              <h2 className="font-display text-2xl font-semibold tracking-[-0.02em] text-[#111] sm:text-3xl">
-                <span className="bg-[linear-gradient(transparent_65%,rgba(29,78,216,0.15)_0)]">From the desk</span>
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm text-[#555]">
-                Longer summaries stay on the home page for scan-friendly reading. When your CMS feed is connected, these rows fill automatically from published posts.
+              ))
+            ) : (
+              <p className="ep-glass rounded-2xl p-6 text-sm text-muted-foreground">
+                {siteContent.hero.featureCardDescription}
               </p>
-              <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {deckPosts.map((post) => (
-                  <Link
-                    key={post.id}
-                    href={postHref(post)}
-                    className="flex h-full flex-col rounded-2xl border border-black/10 bg-white p-6 shadow-[0_8px_30px_rgba(15,23,42,0.06)] transition hover:border-primary/35 hover:shadow-[0_12px_40px_rgba(15,23,42,0.1)]"
-                  >
-                    <span className="w-fit rounded-full bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-primary">
-                      {getPostCategoryLabel(post)}
-                    </span>
-                    <h3 className="font-display mt-4 text-xl font-semibold leading-snug text-[#0f172a]">{post.title}</h3>
-                    {post.summary ? (
-                      <p className="mt-4 grow rounded-lg bg-slate-50 px-3 py-3 text-sm leading-[1.65] text-[#334155] ring-1 ring-slate-200/80">
-                        {post.summary}
-                      </p>
-                    ) : null}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ) : null}
+            )}
+          </div>
+        </div>
 
-          {supportTasks.length ? (
-            <div className="mt-16 grid gap-4 border-t border-black/10 pt-12 sm:grid-cols-2 lg:grid-cols-3">
-              {supportTasks.slice(0, 3).map((task) => (
+        {deckPosts.length ? (
+          <div className="ep-in ep-in-delay-2 mt-16 border-t border-border/50 pt-14">
+            <h2 className="font-display text-2xl font-semibold tracking-[-0.03em] text-foreground sm:text-3xl">
+              {siteContent.taskSectionHeading}
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+              {siteContent.taskSectionDescriptionSuffix}
+            </p>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {deckPosts.map((post, i) => (
                 <Link
-                  key={task.key}
-                  href={task.route}
-                  className="rounded-xl border border-black/10 bg-[#fafafa] px-5 py-4 transition hover:bg-[#f3f3f3]"
+                  key={post.id}
+                  href={postHref(post)}
+                  className="group flex h-full flex-col rounded-2xl border border-border/60 bg-card/50 p-6 shadow-sm backdrop-blur-sm transition hover:border-primary/30 hover:shadow-md"
                 >
-                  <h3 className="font-display text-lg font-medium text-[#111]">{task.label}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#555]">{task.description}</p>
+                  <span
+                    className={`ep-sticker w-fit ${
+                      i % 2 === 0
+                        ? 'bg-accent text-accent-foreground'
+                        : 'bg-primary text-primary-foreground'
+                    }`}
+                  >
+                    {getPostCategoryLabel(post)}
+                  </span>
+                  <h3 className="font-display mt-4 text-lg font-semibold leading-snug text-foreground sm:text-xl">
+                    {post.title}
+                  </h3>
+                  {post.summary ? (
+                    <p className="mt-4 grow text-sm leading-[1.65] text-muted-foreground">{post.summary}</p>
+                  ) : null}
                 </Link>
               ))}
             </div>
-          ) : null}
-        </section>
+          </div>
+        ) : null}
 
-        <div
-          className="h-4 w-full"
-          style={{
-            background:
-              'repeating-linear-gradient(90deg, #0a0a0a 0px, #0a0a0a 3px, #fff 3px, #fff 5px, #0a0a0a 5px, #0a0a0a 8px, #fafafa 8px, #fafafa 11px)',
-          }}
-          aria-hidden
-        />
+        {supportTasks.length ? (
+          <div className="ep-in ep-in-delay-3 mt-16 grid gap-4 border-t border-border/50 pt-12 sm:grid-cols-2 lg:grid-cols-3">
+            {supportTasks.slice(0, 3).map((task) => (
+              <Link
+                key={task.key}
+                href={task.route}
+                className="ep-glass rounded-2xl px-5 py-4 transition hover:border-primary/30"
+              >
+                <h3 className="font-display text-lg font-medium text-foreground">{task.label}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{task.description}</p>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-16 flex flex-col gap-4 border-t border-border/50 pt-10 sm:flex-row sm:flex-wrap sm:items-center">
+            <Link href="/search" className={`inline-flex items-center justify-center gap-2 ${tone.action}`}>
+              {siteContent.cta.secondaryCta.label}
+              <Search className="h-4 w-4" aria-hidden />
+            </Link>
+            <Link href={siteContent.cta.primaryCta.href} className={`inline-flex items-center justify-center gap-2 ${tone.actionAlt}`}>
+              {siteContent.cta.primaryCta.label}
+            </Link>
+          </div>
+        )}
+
+        <div className="ep-kicker-rule mt-16" aria-hidden />
       </div>
     </main>
   )

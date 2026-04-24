@@ -4,7 +4,8 @@ import { Footer } from '@/components/shared/footer'
 import { fetchTaskPosts } from '@/lib/task-data'
 import type { TaskKey } from '@/lib/site-config'
 
-export const TASK_LIST_PAGE_OVERRIDE_ENABLED = true
+/** When false, `components/tasks/task-list-page.tsx` runs (correct per-task logic + shared styling). */
+export const TASK_LIST_PAGE_OVERRIDE_ENABLED = false
 
 function excerpt(text?: string | null) {
   const value = (text || '').trim()
